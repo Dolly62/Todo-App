@@ -8,7 +8,10 @@ function InputForm(props) {
   const submitHandler = (e) => {
     e.preventDefault();
 
+
     props.onAddTodo(enteredTaskTitle);
+
+    setTaskTitle("");
   };
 
   return isForm ? (

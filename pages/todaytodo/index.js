@@ -8,21 +8,12 @@ import React, { useState } from "react";
 const index = (props) => {
   // const [toDolist, setToDolist] = useState([]);
   const addToDoHandler = async (enteredTaskTitle) => {
-    // console.log(enteredTodo);
-    //   setToDolist((prevTodo) => {
-    //     const newToDo = {
-    //       id: Math.random().toString(),
-    //       todoTitle: taskTitle,
-    //     };
-    //     const updatedLists = [...prevTodo, newToDo];
-    //     return updatedLists;
-    //   });
-    // };
 
     const response = await fetch("/api/new-todo", {
       method: "POST",
       body: JSON.stringify({
         title: enteredTaskTitle,
+        status: "incomplete"
       }),
       headers: {
         "Content-Type": "application/json",

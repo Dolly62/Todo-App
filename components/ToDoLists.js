@@ -7,7 +7,11 @@ const ToDoLists = (props) => {
       <div>
         {props.todoList.map((todo) => (
           <div key={todo.id}>
-            <input type="checkbox" /> {todo.todoTitle}
+            <input
+              type="checkbox"
+              onChange={() => props.onStatusUpdate(todo.id, todo.status)}
+            />{" "}
+            {todo.todoTitle} {todo.status}
             <MdDeleteOutline
               style={{ fontSize: "1.2rem" }}
               onClick={() => props.onDeleteTodo(todo.id)}

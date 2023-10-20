@@ -6,14 +6,13 @@ import { MongoClient } from "mongodb";
 import React, { useState } from "react";
 
 const index = (props) => {
-  // const [toDolist, setToDolist] = useState([]);
+  const [toDolist, setToDolist] = useState([]);
   const addToDoHandler = async (enteredTaskTitle) => {
-
     const response = await fetch("/api/new-todo", {
       method: "POST",
       body: JSON.stringify({
         title: enteredTaskTitle,
-        status: "incomplete"
+        status: "incomplete",
       }),
       headers: {
         "Content-Type": "application/json",
@@ -22,24 +21,47 @@ const index = (props) => {
 
     const data = await response.json();
     // console.log(data);
+  };
 
-    // const deleteTodoHandler = (todoId) => {
-    //   setToDolist((prevTodo) => {
-    //       const updatedTodos = prevTodo.filter((todo) => todo.id !== todoId)
-    //       return updatedTodos;
-    //   })
+  const statusHandler = async (todoId) => {
+    const response = await fetch("/api/update-todo", {
+      method: "POST",
+      body: JSON.stringify({
+        id: todoId,
+        status: "completed",
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
+  const deleteTodoHandler = async (todoId) => {
+    // console.log(todoId);
+    const response = await fetch(`/api/delete-todo?${todoId}`, {
+      method: "DELETE",
+    });
+
+    setToDolist((prevTodo) => {
+      const updatedTodos = prevTodo.filter((todo) => todo.id !== todoId);
+      return updatedTodos;
+    });
   };
   return (
     <div>
       <InputForm onAddTodo={addToDoHandler} />
-      <ToDoLists todoList={props.toDolist} />
+      <ToDoLists
+        todoList={props.toDolist}
+        onDeleteTodo={deleteTodoHandler}
+        onStatusUpdate={statusHandler}
+      />
     </div>
   );
 };
 
-export async function getStaticProps(){
+export async function getStaticProps() {
   const client = await MongoClient.connect(
-    "mongodb+srv://first-todo_12:mw_Sy12Rgw@cluster0.yxmtcik.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://first-todo_12:mw_Sy12Rgw@cluster0.yxmtcik.mongodb.net/todosLists?retryWrites=true&w=majority"
   );
 
   const db = client.db();
@@ -49,12 +71,12 @@ export async function getStaticProps(){
 
   client.close();
 
-
   return {
     props: {
-      toDolist : todos.map((todo) => ({
+      toDolist: todos.map((todo) => ({
         id: todo._id.toString(),
-        todoTitle: todo.title
+        todoTitle: todo.title,
+        status: todo.status,
       })),
     },
     revalidate: 1,

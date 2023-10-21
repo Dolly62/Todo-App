@@ -25,7 +25,7 @@ const index = (props) => {
 
   const statusHandler = async (todoId) => {
     const response = await fetch("/api/update-todo", {
-      method: "POST",
+      method: "PATCH",
       body: JSON.stringify({
         id: todoId,
         status: "completed",
@@ -38,14 +38,18 @@ const index = (props) => {
 
   const deleteTodoHandler = async (todoId) => {
     // console.log(todoId);
-    const response = await fetch(`/api/delete-todo?${todoId}`, {
+    const response = await fetch(`/api/delete-todo?todoId=${todoId}`, {
       method: "DELETE",
     });
-
-    setToDolist((prevTodo) => {
-      const updatedTodos = prevTodo.filter((todo) => todo.id !== todoId);
-      return updatedTodos;
-    });
+    if (response.ok) {
+      // setToDolist((prevTodo) => {
+      //   const updatedTodos = prevTodo.filter((todo) => todo.id !== todoId);
+      //   return updatedTodos;
+      // });
+      console.log("Successed");
+    } else {
+      alert("Error in deleting the task");
+    }
   };
   return (
     <div>

@@ -8,7 +8,7 @@ const handler = async (req, res) => {
       "mongodb+srv://first-todo_12:mw_Sy12Rgw@cluster0.yxmtcik.mongodb.net/todosLists?retryWrites=true&w=majority"
     );
 
-    const db = client.db();
+    const db = client.db("todosLists");
     const todoCollection = db.collection("todosLists");
 
     const toDoId = new ObjectId(todoId)

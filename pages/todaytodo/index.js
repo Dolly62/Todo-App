@@ -6,7 +6,7 @@ import { MongoClient } from "mongodb";
 import React, { useState } from "react";
 
 const index = (props) => {
-  const [toDolist, setToDolist] = useState([]);
+  // const [toDolist, setToDolist] = useState([]);
   const addToDoHandler = async (enteredTaskTitle) => {
     const response = await fetch("/api/new-todo", {
       method: "POST",
@@ -27,13 +27,13 @@ const index = (props) => {
     const response = await fetch("/api/update-todo", {
       method: "PATCH",
       body: JSON.stringify({
-        id: todoId,
+        todoId: todoId,
         status: "completed",
       }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-
-    const data = await response.json();
-    console.log(data);
   };
 
   const deleteTodoHandler = async (todoId) => {

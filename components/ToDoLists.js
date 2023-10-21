@@ -9,9 +9,10 @@ const ToDoLists = (props) => {
           <div key={todo.id}>
             <input
               type="checkbox"
-              onChange={() => props.onStatusUpdate(todo.id, todo.status)}
+              checked={todo.status === "completed"}
+              onChange={() => props.onStatusUpdate(todo.id)}
             />{" "}
-            {todo.todoTitle} {todo.status}
+            {todo.todoTitle}
             <MdDeleteOutline
               style={{ fontSize: "1.2rem" }}
               onClick={() => props.onDeleteTodo(todo.id)}

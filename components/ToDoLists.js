@@ -2,10 +2,13 @@ import React, { Fragment } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 const ToDoLists = (props) => {
+  const filteredTodos = props.todoList.filter(
+    (todo) => todo.status === "incomplete"
+  );
   return (
     <Fragment>
       <div>
-        {props.todoList.map((todo) => (
+        {filteredTodos.map((todo) => (
           <div key={todo.id}>
             <input
               type="checkbox"
